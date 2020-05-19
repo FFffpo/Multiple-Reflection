@@ -1,0 +1,50 @@
+Line=[1,-0.3];
+h=0;              %直线与y轴交点纵坐标
+L=-1;             %直线右端横坐标
+x0=-15;           %直线左端横坐标
+
+Line_Ex=Line*[1;0];
+Line_Ey=Line*[0;1];
+k=Line_Ey/Line_Ex;
+
+X1=x0;
+Y1=0;
+X2=L;
+Y2=0;
+Lx1=x0;
+Ly1=k*Lx1+h;
+Lx2=L;
+Ly2=k*Lx2+h;
+
+plot([X1 X2],[Y1 Y2]);
+axis equal;
+hold on;
+plot([Lx1 Lx2],[Ly1 Ly2]);
+
+while 1
+    Line_Ex=Line*[1;0];
+    Line_Ey=Line*[0;1];
+
+    p1=sy([X1 Y1],[Line_Ey -Line_Ex Line_Ex*h]);
+    p2=sy([X2 Y2],[Line_Ey -Line_Ex Line_Ex*h]);
+
+    x1=p1*[1 0]';
+    y1=p1*[0 1]';
+    x2=p2*[1 0]';
+    y2=p2*[0 1]';
+    if x1<0 && y1>=0 
+    plot([x1 x2],[y1 y2]);
+    
+    k=(y2-y1)/(x2-x1);
+    Line=[1 k];
+    X1=Lx1;
+    X2=Lx2;
+    Y1=Ly1;
+    Y2=Ly2;
+    
+    Lx1=x1;
+    Ly1=y1;
+    Lx2=x2;
+    Ly2=y2;
+
+end
